@@ -19,24 +19,26 @@
   </head>
 
   <body>
-    This is the index page of your Django app!
 
-    <nav clas="'navbar navbar-light'">
-      <div class="menu container-fluid">
-        {% comment %} <div class="navbar-header">
-          <a class="navbar-brand" href="#">WebSiteName</a>
-        </div> {% endcomment %}
+    <nav class="navbar navbar-default bg-light navbar-expand-lg">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Car Dealership</a>
+        </div>
 
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="{% url 'djangoapp:about' %}">About us</a></li>
-          <li><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
-          <li><a href="register.html">Register</a></li>
-          <li><a href="#">Sign in</a></li>
+        <ul class="nav navbar-nav">
+          <li class="nav-item px-2"><a href="{% url 'djangoapp:about' %}">About us</a></li>
+          <li class="nav-item px-2"><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav">
+          <li class="nav-item px-2"><a href="register.html">Register</a></li>
+          <li class="nav-item px-2"><a href="#">Sign in</a></li>
         </ul>
       </div>
     </nav>
 
     <!--Add a dealer table here -->
+    This is the index page of your Django app!
   </body>
 </html>
