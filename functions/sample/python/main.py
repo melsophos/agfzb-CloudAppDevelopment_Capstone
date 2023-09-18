@@ -12,7 +12,7 @@ def main(param_dict):
     """Main Function
 
     Args:
-        param_dict (Dict): input paramater
+        param_dict (Dict): input parameter
 
     Returns:
         _type_: _description_ TODO
