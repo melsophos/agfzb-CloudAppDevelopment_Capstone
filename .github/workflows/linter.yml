@@ -8,8 +8,8 @@ on:
 
 jobs: # list of things to do
   lint_function_js:
-    name: Linting JavaScript Function 
-    runs-on: ubuntu-latest 
+    name: Linting JavaScript Function
+    runs-on: ubuntu-latest
     steps: # list of steps
       - name: Install NodeJS
         uses: actions/setup-node@v3
@@ -26,11 +26,10 @@ jobs: # list of things to do
       - name: Code Linting
         run: npm run lint
         working-directory: functions/sample/nodejs
-    
 
   lint_function_python:
-    name: Linting Python Function 
-    runs-on: ubuntu-latest 
+    name: Linting Python Function
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.7
@@ -47,7 +46,7 @@ jobs: # list of things to do
         working-directory: functions/sample/python
 
   lint_django_server:
-    name: Linting Django Server 
+    name: Linting Django Server
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
