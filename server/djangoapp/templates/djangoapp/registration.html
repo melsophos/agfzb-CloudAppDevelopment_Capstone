@@ -1,11 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     {% load static %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-    <body>
-    <!--Add a registration form here -->
-    </body>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default bg-light navbar-expand-lg">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Dealership Review</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li class="btn btn-link"><a href="{% url 'djangoapp:about' %}">About us</a></li>
+          <li class="btn btn-link"><a href="{% url 'djangoapp:contact' %}">Contact us</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+
+          <li>
+            <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+            <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+          </li>
+
+          {% else %}
+
+          <li>
+            <form class="form-inline" action="{% url 'djangoapp:login' %}" method="post">
+              {% csrf_token %}
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Username" name="username" />
+                <input type="password" class="form-control" placeholder="Password" name="psw" />
+                <button class="btn btn-primary" type="submit">Login</button>
+                <a class="btn btn-link" href="{% url 'djangoapp:registration' %}">Sign Up</a>
+              </div>
+            </form>
+          </li>
+
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <h1>Sign Up</h1>
+
+    <form action="{% url 'djangoapp:registration' %}" method="post">
+      <div class="container">
+        <label for="username"><b>User Name</b></label>
+        <input type="text" placeholder="Enter User Name: " name="username" required />
+        <br>
+
+        <label for="firstname"><b>First Name</b></label>
+        <input type="text" placeholder="Enter First Name: " name="firstname" required />
+        <br>
+
+        <label for="lastname"><b>Last Name</b></label>
+        <input type="text" placeholder="Enter Last Name: " name="lastname" required />
+        <br>
+
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password: " name="psw" required />
+        <br>
+
+        <div>
+          {% csrf_token %}
+          <button class="button btn-primary" type="submit">Sign Up</button>
+        </div>
+      </div>
+    </form>
+  </body>
 </html>
