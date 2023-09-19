@@ -8,6 +8,7 @@ from django.contrib import messages
 from datetime import datetime
 import logging
 import json
+import random
 
 from .models import CarModel
 from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, post_request
@@ -114,11 +115,9 @@ def get_dealerships(request):
     if request.method == "GET":
         dealerships = get_dealers_from_cf(DEALER_URL)
         # Concat all dealer's short name
-        dealer_names = " ".join([dealer.short_name for dealer in dealerships])
+        # dealer_names = " ".join([dealer.short_name for dealer in dealerships])
 
-        # return HttpResponse(dealer_names)
-
-        context["dealer_names"] = dealer_names
+        context["dealership_list"] = dealerships
 
         return render(request, "djangoapp/index.html", context)
 
@@ -147,32 +146,34 @@ def add_review(request, dealer_id):
     context = {}
     review = {}
     json_payload = {}
+
     user = request.user
+    dealer_details = get_dealers_from_cf(DEALER_URL, dealerId=dealer_id)[0]
 
     if user:
         if request.method == "GET":
-            dealer_details = get_dealers_from_cf(DEALER_URL, dealerId=dealer_id)[0]
-            cars = CarModel.objects.filter(dealerId=dealer_id)
+            cars = CarModel.objects.filter(dealer_id=dealer_id)
+
             context["cars"] = cars
             context["dealer"] = dealer_details
 
             return render(request, "djangoapp/add_review.html", context)
 
         if request.method == "POST":
-            review["id"] = 1
+            review["id"] = str(random.randint(200,1000))
             review["dealership"] = dealer_id
-            review["name"] = user.first_name
+            review["name"] = user.username
 
-            # TODO: check the different fields
             review["purchase"] = request.POST["purchasecheck"] == "on"
             review["review"] = request.POST["content"]
             review["purchase_date"] = request.POST["purchasedate"]
 
-            car_details = request.POST["car"]
-            car_info = car_details.split("-")
-            review["car_make"] = car_info[0]
-            review["car_model"] = car_info[1]
-            review["car_year"] = car_info[2]
+            car_id = int(request.POST["car"])
+            car = CarModel.objects.get(pk=car_id)
+
+            review["car_make"] = car.car_make.name
+            review["car_model"] = car.type
+            review["car_year"] = car.year.strftime("%Y")
 
             review["time"] = datetime.utcnow().isoformat()
 
