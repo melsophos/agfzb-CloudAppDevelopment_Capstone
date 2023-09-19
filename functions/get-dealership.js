@@ -7,9 +7,12 @@ function main(params) {
     authenticator: authenticator,
   });
   cloudant.setServiceUrl(params.COUCH_URL);
+  console.log(params)
 
   if (params.state) {
     selector = { state: params.state };
+  } else if (params.dealerId) {
+    selector = { id: parseInt(params.dealerId) };
   } else {
     selector = {};
   }
